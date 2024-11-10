@@ -1,0 +1,90 @@
+.custom-checkout-container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.custom-checkout-container .custom-checkout-columns {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.custom-checkout-container .custom-checkout-left,
+.custom-checkout-container .custom-checkout-right {
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.custom-checkout-container .custom-checkout-left {
+  flex: 1 1 60%;
+}
+
+.custom-checkout-container .custom-checkout-right {
+  flex: 1 1 40%;
+  background-color: #f9f9f9;
+}
+
+.custom-checkout-container .custom-checkout-form p {
+  margin-bottom: 15px;
+}
+
+.custom-checkout-container .custom-checkout-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.custom-checkout-container .custom-checkout-form input,
+.custom-checkout-container .custom-checkout-form select {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc !important;
+  border-radius: 4px;
+}
+
+.custom-checkout-container .custom-checkout-form button {
+  padding: 10px 20px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.custom-checkout-container .custom-checkout-form button:hover {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #000;
+}
+
+.custom-checkout-container .custom-checkout-right h2 {
+  margin-top: 0;
+  font-size: 1.5em;
+}
+
+.custom-checkout-container .cart-item {
+  border-bottom: 1px solid #e1e1e1;
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.custom-checkout-container .product-name {
+  font-weight: bold;
+  flex: 1;
+}
+
+.custom-checkout-container .product-total {
+  color: #555;
+  text-align: right;
+}
+
+.custom-checkout-container .cart-total {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-top: 20px;
+}
