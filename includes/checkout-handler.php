@@ -64,16 +64,16 @@ class CCP_Checkout_Handler {
                 $order->add_product( $product, $quantity );
             }
 
-            // Set billing address
+                    // Set Fields in Woo admin panel
             $order->set_address( array(
-                'first_name' => $name,
+                'first_name' => 'Name: ' . $name,
                 'email'      => $email,
             ), 'billing' );
 
-            // Set shipping address
             $order->set_address( array(
-                'address_1' => $address,
+                'address_1' => 'Address: ' . $address,
             ), 'shipping' );
+
 
             // Save payment information as order meta in billing
             if ( ! empty( $payment_info ) ) {
