@@ -40,13 +40,19 @@ get_header(); ?>
     </p>
 
     <p>
-        <label for="ccp_payment_method"><?php _e( 'Payment Method', 'custom-checkout-plugin' ); ?> <span class="required">*</span></label>
-        <select name="ccp_payment_method" id="ccp_payment_method" required>
-            <option value=""><?php _e( 'Select a payment method', 'custom-checkout-plugin' ); ?></option>
-            <option value="credit_card"><?php _e( 'Credit Card', 'custom-checkout-plugin' ); ?></option>
-            <option value="cash"><?php _e( 'Cash', 'custom-checkout-plugin' ); ?></option>
-        </select>
-    </p>
+    <label for="ccp_payment_method"><?php _e( 'Payment Method', 'custom-checkout-plugin' ); ?> <span class="required">*</span></label>
+    <select name="ccp_payment_method" id="ccp_payment_method" required>
+        <option value=""><?php _e( 'Select a payment method', 'custom-checkout-plugin' ); ?></option>
+        <?php
+        $available_gateways = WC()->payment_gateways->get_available_payment_gateways();
+        foreach ( $available_gateways as $gateway_id => $gateway ) {
+            echo '<option value="' . esc_attr( $gateway_id ) . '">' . esc_html( $gateway->get_title() ) . '</option>';
+        }
+        ?>
+    </select>
+</p>
+
+
 
     <p>
         <label for="ccp_payment_info"><?php _e( 'Payment Information', 'custom-checkout-plugin' ); ?> <span class="required">*</span></label>

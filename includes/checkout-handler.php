@@ -10,6 +10,33 @@ class CCP_Checkout_Handler {
 
         // Register display action for order details
         add_action( 'woocommerce_admin_order_data_after_billing_address', array( $this, 'display_custom_payment_information' ) );
+
+        // Filter payment gateways based on custom logic
+        add_filter( 'woocommerce_available_payment_gateways', array( $this, 'filter_payment_gateways' ) );
+
+        // Display selected payment method in admin
+        add_action( 'woocommerce_admin_order_data_after_billing_address', array( $this, 'display_selected_payment_method_in_admin' ), 10, 1 );
+    }
+
+    public function filter_payment_gateways( $available_gateways ) {
+        // Set the available payment methods
+        $allowed_gateways = array( 'bacs', 'cheque', 'cod' );
+    
+        foreach ( $available_gateways as $gateway_id => $gateway ) {
+            if ( ! in_array( $gateway_id, $allowed_gateways ) ) {
+                unset( $available_gateways[ $gateway_id ] );
+            }
+        }
+        return $available_gateways;
+    }
+
+    public function display_selected_payment_method_in_admin( $order ) {
+        // Get the header of the selected payment method
+        $payment_method_title = $order->get_payment_method_title();
+        
+        if ( $payment_method_title ) {
+            echo '<p><strong>' . __( 'Selected Payment Method:', 'custom-checkout-plugin' ) . '</strong> ' . esc_html( $payment_method_title ) . '</p>';
+        }
     }
 
     public function process_custom_checkout() {
@@ -64,7 +91,7 @@ class CCP_Checkout_Handler {
                 $order->add_product( $product, $quantity );
             }
 
-                    // Set Fields in Woo admin panel
+             // Set Fields in Woo admin panel
             $order->set_address( array(
                 'first_name' => 'Name: ' . $name,
                 'email'      => $email,
@@ -74,23 +101,13 @@ class CCP_Checkout_Handler {
                 'address_1' => 'Address: ' . $address,
             ), 'shipping' );
 
-
             // Save payment information as order meta in billing
             if ( ! empty( $payment_info ) ) {
                 $order->update_meta_data( '_payment_information', $payment_info );
             }
 
-            // Set the payment method
-            if ( $payment_method === 'credit_card' ) {
-                $order->set_payment_method_title( 'Credit Card' );
-                $order->set_payment_method( 'custom_credit_card' );
-            } elseif ( $payment_method === 'cash' ) {
-                $order->set_payment_method_title( 'Cash' );
-                $order->set_payment_method( 'custom_cash' );
-            } else {
-                $order->set_payment_method_title( 'Unknown' );
-                $order->set_payment_method( 'unknown' );
-            }
+            // Set the payment method in the order
+            $order->set_payment_method( $payment_method );
 
             // Calculate order totals
             $order->calculate_totals();
